@@ -39,21 +39,19 @@ app.get("/api/timestamp/:date_string?", function (req, res) {
   
   if(!date) return res.json({
     unix: parseInt(moment().format('x')),
-    natural: moment().utc().format('ddd, DD MMM YYYY HH:MM:SS z')
+    utc: moment().utc().format('ddd, DD MMM YYYY HH:MM:SS z')
   })
   
   date = new Date(date)
   
   // Moment.js makes the checking for me
   if(formatDate(date) === 'Invalid date') {
-    return res.json({error : "Invalid Date" })
+    return res.json({unix : null, utc: formatDate(date) })
   }
   
   return res.json({
     unix: parseInt(moment(date).format('x')),
-    natural: formatDate(date),
-    moment: date,
-    data: moment(date)
+    utc: formatDate(date)
   })
 });
 
